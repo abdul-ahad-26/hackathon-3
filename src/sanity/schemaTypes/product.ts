@@ -1,4 +1,4 @@
-import { defineType } from "sanity"
+import { defineField, defineType } from "sanity"
 
 export const product = defineType({
     name: 'product',
@@ -10,6 +10,16 @@ export const product = defineType({
             title: 'Title',
             type: 'string',
         },
+        defineField({
+            name: "slug",
+            type: "slug",
+            title: "Slug",
+            options: {
+                source: 'title',
+                maxLength: 200
+            },
+            validation: Rule => Rule.required().error("this feild is required")
+        }),
         {
             name: 'price',
             title: 'Price',
@@ -21,23 +31,20 @@ export const product = defineType({
             type: 'text',
         },
         {
-            name: 'image_url',
+            name: 'image',
             title: 'Image',
-            type: 'string',
+            type: 'image',
+            options: {
+                hotspot: true
+            }
         },
         {
             name: "category",
             title: "Category",
-            type: 'string',
-            options: {
-                list: [
-                    { title: 'T-Shirt', value: 'tshirt' },
-                    { title: 'Short', value: 'short' },
-                    { title: 'Jeans', value: 'jeans' },
-                    { title: 'Hoddie', value: 'hoodie' },
-                    { title: 'Shirt', value: 'shirt' },
-                ]
-            }
+            type: "array",
+            of: [{ type: "reference",
+                to:[{type:"category"}]
+             }],
         },
         {
             name: "discountPercentage",
@@ -69,6 +76,8 @@ export const product = defineType({
             name: "quantity",
             type: "number",
             title: "Quantity"
-        },
+        }
+
+
     ],
 })

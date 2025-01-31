@@ -1,59 +1,67 @@
+'use client'
+import { useCart } from "@/app/context/CartContext";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 
-// Function to generate a unique slug using product title and _id
-const generateSlug = (product: { title: string; _id: string }) => {
-  return `${product.title.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "-")}-${product._id}`;
-};
+
 
 const ProductGrid = ({ products }: { products: Product[] }) => {
+  const { addToCart } = useCart();
+
+  // console.log(products)
   return (
-    <div className="max-w-[1080px]  mx-auto px-4  py-8 grid grid-cols-3 gap-6">
+    <div className="max-w-[1080px]  mx-auto px-4  py-8 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 gap-6">
       {products.map((product) => (
-        <Link key={product._id} href={`/product/${generateSlug(product)}`}>
-         <div className="bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
-        >
-          <div className="relative w-full h-60">
-            <Image
-              src={product.image_url}
-              alt={product.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-t-lg"
-              priority
-            />
-          </div>
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">{product.title}</h3>
-            <p className="text-gray-500 text-sm truncate">{product.description}</p>
-            <div className="mt-3 flex items-center justify-between">
-              <p className="text-xl font-bold text-gray-900">${(product.price -(product.price*(product.discountPercentage/100))).toFixed(2)}</p>
-              {product.isNew && (
-                <span className="bg-gray-400 text-white text-xs font-semibold px-2 py-1 rounded">
-                  New
-                </span>
-              )}
-            </div>
-            <div className="mt-2 flex items-center justify-between">
-              <span className="text-gray-600 text-sm">Quantity: {product.quantity}</span>
-              {product.discountPercentage > 0 && (
-                <span className="text-sm text-gray-500 line-through">
-                  ${(product.price).toFixed(2)}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-wrap gap-2 mt-2">
+        <div key={product._id} >
+          <div className="bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
+          >
+            <Link href={`/product/${product.slug?.current}`}>
+
+              <div className="relative h-64 bg-gray-100 flex items-center justify-center">
+                <Image
+                  src={product.image_url}
+                  alt={product.title}
+                  fill
+                  style={{ objectFit: "contain" }} className='p-4'
+                />
+              </div>
+            </Link>
+            <div className="p-4">
+              <Link href={`/product/${product.slug?.current}`}>
+
+
+                <h3 className="text-lg font-semibold">{product.title}</h3>
+              </Link>
+
+              <p className="text-gray-500 text-sm truncate">{product.description}</p>
+              <div className="mt-3 flex items-center justify-between">
+                <p className="text-xl font-bold text-gray-900">${(product.price - (product.price * (product.discountPercentage / 100))).toFixed(2)}</p>
+                {product.isNew && (
+                  <span className="bg-gray-400 text-white text-xs font-semibold px-2 py-1 rounded">
+                    New
+                  </span>
+                )}
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <span className="text-gray-600 text-sm">Quantity: {product.quantity}</span>
+                {product.discountPercentage > 0 && (
+                  <span className="text-sm text-gray-500 line-through">
+                    ${(product.price).toFixed(2)}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
                 {product.colors.map((color: string, index: number) => (
                   <span key={index} className="border rounded-full h-6 w-6" style={{ backgroundColor: color }}></span>
                 ))}
               </div>
-            <button className="mt-4 w-full bg-[#2DC071] text-white py-2 rounded hover:bg-green-600 transition ">
-              Add to Cart
-            </button>
+              <button className="mt-4 w-full bg-[#2DC071] text-white py-2 rounded hover:bg-green-600 transition " onClick={() => { addToCart(product) }}>
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
-        </Link>
       ))}
     </div>
   );

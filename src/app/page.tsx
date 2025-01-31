@@ -22,7 +22,8 @@ const getProducts = async ()=>{
           "discountPercentage":discountPercent,
           isNew,
           colors,
-          sizes
+          sizes,
+          slug
       }
           `
   )
@@ -31,7 +32,7 @@ const getProducts = async ()=>{
 }
 
 
-export default async function HeroSection() {
+export default async function Home() {
   const products = await getProducts()
   console.log("products: ",products)
   return (

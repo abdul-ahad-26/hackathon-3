@@ -13,10 +13,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useCart } from '@/app/context/CartContext';
 
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {cart}= useCart();
 
   return (
     <header className="bg-white ">
@@ -48,8 +50,8 @@ export default function Header() {
                 </DropdownMenu>
               </li>
 
-              <Link href="/product" className="md:hidden hover:text-black "><li>Product</li></Link>
-              <Link href="/pricing" className="md:hidden hover:text-black "><li>Pricing</li></Link>
+              <Link href="/product" className=" hover:text-black "><li>Product</li></Link>
+              <Link href="/pricing" className=" hover:text-black "><li>Pricing</li></Link>
               <Link href="/about" className=" hover:text-black"><li >About</li></Link>
               <Link href="/blog" className="hidden md:inline hover:text-black"><li >Blog</li> </Link>
               <Link href="/contact" className='hover:text-black'><li >Contact</li></Link>
@@ -69,23 +71,22 @@ export default function Header() {
 
 
             <i className="cursor-pointer text-xl hover:text-blue-700  bi bi-search"></i>
-            <div className="flex  items-center">
-
-
-
+            
+            <Link className="flex  items-center" href="/cart" >
               <i className=" bi bi-cart text-2xl cursor-pointer hover:text-blue-700  "></i>
               <span className="text-sm px-1.5 py-0.5 font-normal hidden sm:inline">
-                1
+                {cart.length}
               </span>
-            </div>
-            <div className="  hidden sm:flex   ">
+            </Link>
+
+            <Link className="  hidden sm:flex " href="/wishlist">
               <FavoriteBorderOutlinedIcon
                 className=" size-6 cursor-pointer hover:text-blue-700 "
               />
               <span className="text-sm  px-1.5 py-0.5 font-normal   ">
                 1
               </span>
-            </div>
+            </Link>
             <BiMenuAltRight className="text-2xl lg:hidden cursor-pointer  " onClick={() => setIsMenuOpen(!isMenuOpen)} />
 
           </div>

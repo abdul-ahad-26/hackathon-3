@@ -6,29 +6,10 @@ import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 
-const getProductBySlug = async (slug: string) => {
-  const parts = slug.split("-");
-  const productId = parts[parts.length - 1];
-
-  const product = await client.fetch(
-    `*[_type == "product" && _id == $productId][0] {
-            _id,
-            title,
-            description,
-            "image_url": image.asset->url,
-            price,
-            category,
-            quantity,
-            "discountPercentage": discountPercent,
-            isNew,
-            colors,
-            sizes
-        }`,
-    { productId }
-  );
-  return product;
-};
+// import best seller products from sanity
 const getBestSellerProducts = async () => {
+
+  //fetch
   const products = await client.fetch<Product[]>(
     `
            *[_type=="product"][0..5]{
@@ -42,7 +23,8 @@ const getBestSellerProducts = async () => {
           "discountPercentage":discountPercent,
           isNew,
           colors,
-          sizes
+          sizes,
+          slug
       }
           `
   )
@@ -50,11 +32,44 @@ const getBestSellerProducts = async () => {
 
 }
 
+//import product from sanity
+const getProductBySlug = async (slug: string) => {
+  //fetch
+  const product = await client.fetch<Product>(
+    `*[_type=="product" && slug.current == "${slug}" ]
+    {
+        _id,
+            title,
+          description,
+          "image_url":image.asset->url,
+          price,
+          category,
+          quantity,
+          "discountPercentage":discountPercent,
+          isNew,
+          colors,
+          sizes,
+          slug
+      }[0]
+  `
+  )
+
+  return product
+
+
+}
+
+
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
+
+  //getting product
   const product = await getProductBySlug(params.slug);
+
+  // getting products
   const bestSellerProducts = await getBestSellerProducts();
 
-  console.log("p ===", product)
+  console.log("product ===", product)
+
   if (!product) return <div className="p-6 text-red-500 text-center text-2xl">Product not found</div>;
 
   return (
@@ -193,12 +208,12 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
               </div>
               <div className="flex gap-4 items-center">
                 <span className="title-font font-medium text-xl text-gray-900">
-                  ${(product.price - (product.price * (product.discountPercentage / 100))).toFixed(2)}
+                  ${(product.price - (product.price * (product?.discountPercentage / 100))).toFixed(2)}
                 </span>
                 <span className="title-font font-medium text-xl text-gray-400 line-through">
                   ${product.price.toFixed(2)}
                 </span>
-                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
+                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
                   Add to cart
                 </button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
@@ -223,6 +238,5 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
       <BrandShowcase />
 
     </>
-
   );
 }

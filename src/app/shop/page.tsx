@@ -24,7 +24,8 @@ const getProducts = async () => {
           "discountPercentage":discountPercent,
           isNew,
           colors,
-          sizes
+          sizes,
+          slug
       }
           `
   )
