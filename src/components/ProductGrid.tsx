@@ -4,19 +4,17 @@ import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
 
-
-
 const ProductGrid = ({ products }: { products: Product[] }) => {
   const { addToCart } = useCart();
 
-  // console.log(products)
+  console.log(products)
   return (
     <div className="max-w-[1080px]  mx-auto px-4  py-8 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 gap-6">
       {products.map((product) => (
         <div key={product._id} >
           <div className="bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
           >
-            <Link href={`/product/${product.slug?.current}`}>
+            <Link href={`/products/${product.slug?.current}`}>
 
               <div className="relative h-64 bg-gray-100 flex items-center justify-center">
                 <Image

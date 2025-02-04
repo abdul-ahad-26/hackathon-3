@@ -1,95 +1,60 @@
+'use client'
+import { useCart } from "@/app/context/CartContext";
 import BrandShowcase from "@/components/BrandShowcase";
-import Breadcrum from "@/components/Breadcrum";
 import ProductGrid from "@/components/ProductGrid";
-import { client } from "@/sanity/lib/client";
+import { getProductBySlug, getProducts } from "@/lib/queries";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import Link from "next/link";
-
-// import best seller products from sanity
-const getBestSellerProducts = async () => {
-
-  //fetch
-  const products = await client.fetch<Product[]>(
-    `
-           *[_type=="product"][0..5]{
-        _id,
-            title,
-          description,
-          "image_url":image.asset->url,
-          price,
-          category,
-          quantity,
-          "discountPercentage":discountPercent,
-          isNew,
-          colors,
-          sizes,
-          slug
-      }
-          `
-  )
-  return products
-
-}
-
-//import product from sanity
-const getProductBySlug = async (slug: string) => {
-  //fetch
-  const product = await client.fetch<Product>(
-    `*[_type=="product" && slug.current == "${slug}" ]
-    {
-        _id,
-            title,
-          description,
-          "image_url":image.asset->url,
-          price,
-          category,
-          quantity,
-          "discountPercentage":discountPercent,
-          isNew,
-          colors,
-          sizes,
-          slug
-      }[0]
-  `
-  )
-
-  return product
+import { useEffect, useState } from "react";
 
 
-}
+export default  function ProductDetailPage({ params }: { params: { slug: string } }) {
+  const { addToCart } = useCart();
+  const [product, setProduct] = useState<Product | null>(null)
+  const [bestSellers, setBestSellers] = useState<Product[] | null>()
 
 
-export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
+  useEffect(() => {
+    const fetchData = async () => {//getting product
+      const fetchedProduct = await getProductBySlug(params.slug);
+      // getting products
+      const fetchedBestSellers = await getProducts(6);
 
-  //getting product
-  const product = await getProductBySlug(params.slug);
+      setProduct(fetchedProduct)
+      setBestSellers(fetchedBestSellers)
 
-  // getting products
-  const bestSellerProducts = await getBestSellerProducts();
+    }
 
-  console.log("product ===", product)
+    fetchData()
+
+
+  }, [params.slug])
+
+
+  // console.log("product ===", product)
 
   if (!product) return <div className="p-6 text-red-500 text-center text-2xl">Product not found</div>;
 
   return (
     <>
-      <Breadcrum />
+      {/* <Breadcrum /> */}
 
       <section className="text-gray-600 body-font overflow-hidden">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-16 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
+            <div className="relative lg:w-1/2 w-full h-auto flex justify-center items-center">
+              <div className="relative w-full h-full"> {/* Fixed height to maintain aspect ratio */}
+                <Image
+                  src={product.image_url}
+                  alt={product.title}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </div>
 
-            <Image
-              src={product.image_url}
-              alt={product.title}
-              height={630}
-              width={393.594}
-
-              className="lg:w-1/2 w-full lg:h-auto h-64 object-contain self-start mt-8 rounded"
-
-              priority
-            />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
                 Bandage
@@ -168,9 +133,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                   </Link>
                 </span>
               </div>
-              <p className="leading-relaxed line-clamp-5">
+              <p className="leading-relaxed max-h-[200px] overflow-y-auto line-clamp-none">
                 {product.description}
               </p>
+
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
                   <span className="mr-3">Color</span>
@@ -213,7 +179,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                 <span className="title-font font-medium text-xl text-gray-400 line-through">
                   ${product.price.toFixed(2)}
                 </span>
-                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" onClick={() => { addToCart(product) }}>
                   Add to cart
                 </button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
@@ -234,7 +200,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         </div>
       </section>
 
-      <ProductGrid products={bestSellerProducts} />
+      <ProductGrid products={bestSellers ?? []} />
       <BrandShowcase />
 
     </>

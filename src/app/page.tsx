@@ -1,39 +1,17 @@
-import { client } from "@/sanity/lib/client";
 import ClassicProduct from "../components/ClassicProduct";
 import EditorsPick from "../components/EditorsPick";
 import FeaturedPosts from "../components/FeaturedPosts";
 import FeaturedProducts from "../components/FeaturedProducts";
 import Hero from "../components/Hero";
 import NeuralUniverse from "../components/NeuralUniverse";
-import { Product } from "@/types/product";
+import { getProducts } from "@/lib/queries";
 
 
-const getProducts = async ()=>{
-  const products = await client.fetch<Product[]>(
-          `
-           *[_type=="product"][0..5]{
-        _id,
-            title,
-          description,
-          "image_url":image.asset->url,
-          price,
-          category,
-          quantity,
-          "discountPercentage":discountPercent,
-          isNew,
-          colors,
-          sizes,
-          slug
-      }
-          `
-  )
-  return products
 
-}
 
 
 export default async function Home() {
-  const products = await getProducts()
+  const products = await getProducts(6)
   console.log("products: ",products)
   return (
     <div >

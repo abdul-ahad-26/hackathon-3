@@ -1,0 +1,87 @@
+my-ecommerce-app/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx                  # Homepage (Marketing + Featured Products)
+│   │   ├── layout.tsx                 # Root layout (Header, Footer, etc.)
+│   │   ├── (shop)/                     # Shop-related pages
+│   │   │   ├── layout.tsx               # Layout for shop pages
+│   │   │   ├── page.tsx                 # Shop homepage (Full product listing)
+│   │   │   ├── products/
+│   │   │   │   ├── [slug]/
+│   │   │   │   │   └── page.tsx          # Product detail page
+│   │   │   │   └── page.tsx              # All products page
+│   │   │   ├── categories/
+│   │   │   │   ├── [slug]/
+│   │   │   │   │   └── page.tsx          # Dynamic category page
+│   │   │   │   └── page.tsx              # All categories page
+│   │   │   ├── cart/
+│   │   │   │   └── page.tsx              # Shopping cart page
+│   │   │   ├── checkout/
+│   │   │   │   └── page.tsx              # Checkout page
+│   │   ├── (marketing)/                 # Marketing pages
+│   │   │   ├── about/
+│   │   │   │   └── page.tsx              # About Us page
+│   │   │   ├── contact/
+│   │   │   │   └── page.tsx              # Contact page
+│   │   │   ├── team/
+│   │   │   │   └── page.tsx              # Team page
+│   │   │   └── layout.tsx                # Marketing page layout
+│   │   ├── account/                      # User account-related pages
+│   │   │   ├── page.tsx                   # User dashboard
+│   │   │   ├── orders/
+│   │   │   │   └── page.tsx               # User orders page
+│   │   │   ├── settings/
+│   │   │   │   └── page.tsx               # User settings page
+│   │   ├── auth/                          # Authentication pages
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx               # Login page
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx               # Register page
+│   │   │   └── layout.tsx                 # Auth page layout
+│   │   ├── not-found.tsx                   # Custom 404 page
+│   ├── components/
+│   │   ├── ui/                             # Reusable UI components
+│   │   │   ├── Button.tsx
+│   │   │   ├── Card.tsx
+│   │   │   └── ...
+│   │   ├── Header.tsx                      # Header component
+│   │   ├── Footer.tsx                      # Footer component
+│   │   ├── ProductCard.tsx                 # Product card component
+│   │   ├── CategoryList.tsx                # Category list component
+│   │   └── ...
+│   ├── lib/
+│   │   ├── sanity.ts                        # Sanity client config
+│   │   ├── queries.ts                       # GROQ queries
+│   │   ├── auth.ts                          # Authentication utilities
+│   │   ├── cart.ts                          # Cart utilities (localStorage, Context API)
+│   │   └── utils.ts                         # General utility functions
+│   ├── schemas/                             # Sanity schemas
+│   │   ├── category.ts
+│   │   ├── product.ts
+│   │   ├── user.ts
+│   │   └── index.ts
+│   ├── types/                               # TypeScript types
+│   │   ├── product.d.ts
+│   │   ├── category.d.ts
+│   │   ├── user.d.ts
+│   │   └── ...
+│   ├── styles/
+│   │   ├── globals.css                      # Global styles
+│   │   ├── tailwind.css                     # Tailwind styles (if using Tailwind)
+│   │   └── ...
+│   ├── sanity/                              # Embedded Sanity Studio
+│   │   ├── schemas/
+│   │   │   ├── category.ts
+│   │   │   ├── product.ts
+│   │   │   └── ...
+│   │   ├── plugins/                         # Sanity plugins
+│   │   ├── deskStructure.ts                 # Custom desk structure for Sanity
+│   │   └── ...
+├── public/
+│   ├── images/                              # Static images
+│   ├── icons/                               # Static icons
+│   └── ...
+├── next.config.js                           # Next.js config
+├── tailwind.config.js                       # Tailwind config (if using Tailwind)
+├── package.json                             # Dependencies
+└── README.md                                # Documentation

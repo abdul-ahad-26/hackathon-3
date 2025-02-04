@@ -1,11 +1,11 @@
 import React from 'react'
-import ProductGrid from '../../components/ProductGrid'
 import Image from 'next/image'
 import KeyboardArrowDownSharpIcon from '@mui/icons-material/KeyboardArrowDownSharp';
-import Breadcrum from '../../components/Breadcrum';
-import BrandShowcase from '../../components/BrandShowcase';
 import { client } from '@/sanity/lib/client';
 import { Product } from '@/types/product';
+import ProductGrid from '@/components/ProductGrid';
+import BrandShowcase from '@/components/BrandShowcase';
+import Breadcrum from '@/components/Breadcrum';
 
 
 

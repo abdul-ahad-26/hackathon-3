@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 const EditorsPick = () => {
     return (
@@ -16,24 +17,25 @@ const EditorsPick = () => {
                 <div className="flex flex-col lg:flex-row text-center justify-center items-center gap-6 mt-6">
 
 
-                    <div className='relative hover:scale-105 transition-300'>
+                    <Link href="/categories/men-clothing"><div className='relative hover:scale-105 transition-300'>
                         <Image src="/men.png" alt="men-cloths" width={509} height={500} className='h-[500px] w-[324px] lg:w-[510px] object-cover' />
                         <button className='w-[170px] h-[48px] bg-white absolute bottom-8 left-8 font-bold hover:scale-105 transition-300'>MEN</button>
-                    </div>
+                    </div></Link>
                     <div className='flex flex-col lg:flex-row gap-6  '>
-                        <div className='relative hover:scale-105 transition-300'>
+                        <Link href="/categories/women-clothing"><div className='relative hover:scale-105 transition-300'>
                             <Image width={509} height={500} src="/women.png" alt="women-cloths" className='h-[500px] w-[324px] lg:w-[240px] object-cover' />
                             <button className='w-[170px] h-[48px] bg-white absolute bottom-3 left-12 font-bold hover:scale-105 transition-300'>WOMEN</button>
-                        </div>
+                        </div></Link>
                         <div className='flex flex-col h-[500px]  justify-between'>
-                            <div className='relative hover:scale-105 transition-300'>
+                            <Link href="/categories/accessories"><div className='relative hover:scale-105 transition-300'>
                                 <Image width={509} height={500} src="/accessories.png" alt="accessories" className='h-[242px] w-[324px] lg:w-[240px] object-cover' />
                                 <button className='w-[170px] h-[30px] sm:h-[38px] bg-white absolute bottom-8 left-8 font-bold hover:scale-105 transition-300'>accessories</button>
-                            </div>
-                            <div className='relative hover:scale-105 transition-300'>
+                            </div></Link>
+                            <Link href="/categories/kids-clothing"><div className='relative hover:scale-105 transition-300'>
                                 <Image width={509} height={500} src="/kids.png" alt="kids" className='h-[242px]  w-[324px] lg:w-[240px] object-cover' />
                                 <button className='w-[120px] h-[30px] sm:h-[38px] bg-white absolute bottom-3 left-12 font-bold hover:scale-105 transition-300'>kids</button>
-                            </div>
+                            </div></Link>
+                            
                         </div>
                     </div>
 

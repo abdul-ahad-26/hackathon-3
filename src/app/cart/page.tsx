@@ -9,13 +9,13 @@ export default function CartPage() {
   const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-[1440px] mx-auto md:px-10 p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
       {cart.length === 0 ? (
         <p className="text-gray-500 text-lg">Your cart is empty.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
+          <table className="w-full border-collapse  ">
             <thead>
               <tr className="bg-gray-100">
                 <th className="p-3 text-left">Product</th>
@@ -47,9 +47,9 @@ export default function CartPage() {
               ))}
             </tbody>
           </table>
-          <div className="mt-6 flex justify-between items-center">
+          <div className="max-w-[1440px] mx-auto  mt-6 flex justify-between items-center px-4">
             <h2 className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</h2>
-            <button onClick={clearCart} className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+            <button onClick={clearCart} className="bg-gray-600 text-white px-4 py-2 mr-3  rounded hover:bg-gray-700">
               Clear Cart
             </button>
           </div>

@@ -1,17 +1,32 @@
-export const category = {
-    name: "category",
-    title: "Category",
-    type: "document",
+// schemas/category.js
+export const Category = {
+    name: 'category',
+    type: 'document',
+    title: 'Category',
     fields: [
         {
-            name: "title",
-            title: "Title",
-            type: "string",
+            name: 'image',
+            title: 'Image',
+            type: 'image',
         },
         {
-            name:'image',
-            title:'Image',
-            type:'image',
-        }
+            name: 'title',
+            type: 'string',
+            title: 'Title',
+        },
+        {
+            name: 'slug',
+            type: 'slug',
+            title: 'Slug',
+            options: {
+                source: 'title',
+                maxLength: 96,
+            },
+        },
+        {
+            name: 'description',
+            type: 'text',
+            title: 'Description',
+        },
     ],
 };
