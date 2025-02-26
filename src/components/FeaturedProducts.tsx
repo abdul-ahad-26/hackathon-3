@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductGrid from './ProductGrid'
+import ProductGrid from './products/ProductGrid'
 import { Product } from '@/types/product';
 
 const FeaturedProducts = ({products}:{products:Product[]}) => {

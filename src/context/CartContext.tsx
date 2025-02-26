@@ -1,6 +1,8 @@
 'use client'
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Product } from "@/types/product";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 interface CartItem extends Product {
   quantity: number;
@@ -16,7 +18,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[] >([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -45,6 +47,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
+
+    toast.success(`${product.title} added to cart!`, { position: "bottom-left" ,
+      
+    });
   };
 
   const removeFromCart = (productId: string) => {
@@ -58,6 +64,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
       {children}
+      <Toaster richColors/>
     </CartContext.Provider>
   );
 };

@@ -1,18 +1,7 @@
 import { client } from "@/sanity/lib/client";
-import { Product } from "@/types/product";
+// lib/sanity/queries.ts
+import type { Product } from "@/types/product"
 
-// Get All Categories
-export async function getCategories() {
-  const query = `*[_type == "category"]{
-    _id,
-    "image_url":image.asset->url,
-    title,
-    slug,
-    description
-  }`;
-  
-  return await client.fetch(query);
-}
 
 // Get All  Products by Category
 export async function getProductsByCategory(categorySlug:string){
@@ -83,6 +72,23 @@ export const getProductBySlug = async (slug: string) => {
   )
 
   return product
+}
 
+// export async function getProducts(count?:number): Promise<Product[]> {
+//   const query = groq`*[_type=="product"]${count?`[0...${count}]`:''}`
+ 
+//     return await client.fetch<Product[]>(query)
+// }
+export async function getCategories() {
+  const query = `*[_type == "category"] {
+    _id,
+    title,
+    slug,
+    "image_url": image.asset->url,
+    "itemCount": count(
+      *[_type == "product" && references(^._id)]
+    )
+  }`;
 
+  return client.fetch(query);
 }

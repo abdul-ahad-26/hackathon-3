@@ -1,6 +1,6 @@
 import BrandShowcase from "@/components/BrandShowcase";
 import Breadcrum from "@/components/Breadcrum";
-import ProductGrid from "@/components/ProductGrid";
+import ProductGrid from "@/components/products/ProductGrid";
 import { getProducts, getProductsByCategory } from "@/lib/queries";
 
 

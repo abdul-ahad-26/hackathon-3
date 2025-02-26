@@ -9,6 +9,7 @@ const Categories = async () => {
 
   return (
     <div>
+      
       <CategoryList categories={categories}/>
     </div>
   )
